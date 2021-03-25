@@ -2,7 +2,7 @@
 *****************************************
 *** Combine the quality control result **
 *****************************************
-ssc install fs
+//ssc install fs //please install this package if you haven't
 fs  *.dta
 local firstfile: word 1 of `r(files)'
 use `firstfile', clear
