@@ -67,3 +67,5 @@ capture confirm variable sh246s sh255s sh264s sh246d sh255d sh264d
 
 
 
+/*add more logic for Rwanda2005 below
+///dfdfdfdfdf
