@@ -146,6 +146,9 @@ order *,sequential
 	*w_sampleweight.
 	gen w_sampleweight = v005/10e6
 
+	*additional logit added for Rwanda2005 below
+	//dddfdfdfdfdfdfdfdfdfd
+
 	
 
 
