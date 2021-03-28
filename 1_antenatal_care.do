@@ -146,7 +146,8 @@ order *,sequential
 	*w_sampleweight.
 	gen w_sampleweight = v005/10e6
 
-	
+	*additonal conditions for Rwanda2005
+	//dfdfdfdfdfdfdfd
 
 
 
