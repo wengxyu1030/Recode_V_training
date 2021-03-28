@@ -20,3 +20,7 @@
 
 
 
+*w_mateduc Mother's highest educational level ever attended (1 = none, 2 = primary, 3 = lower sec or higher)
+*w_mateduc Mother's highest educational level ever attended (1 = none, 2 = primary, 3 = lower sec or higher)
+*w_mateduc Mother's highest educational level ever attended (1 = none, 2 = primary, 3 = lower sec or higher)
+*w_mateduc Mother's highest educational level ever attended (1 = none, 2 = primary, 3 = lower sec or higher)
