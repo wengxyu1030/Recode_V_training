@@ -4,9 +4,8 @@
 
 version 15.1
 clear all
-set matsize 3956, permanent
+set matsize 800, permanent
 set more off, permanent
-set maxvar 32767, permanent
 capture log close
 sca drop _all
 matrix drop _all
@@ -19,27 +18,27 @@ macro drop _all
 //NOTE FOR WINDOWS USERS : use "/" instead of "\" in your paths
 
 //global root "C:/Users/wb500886/WBG/Sven Neelsen - World Bank/MEASURE UHC DATA"
-global root "C:\Users\Guan\OneDrive\DHS\MEASURE UHC DATA"
+global root "C:/Users/Vero Comp/Documents/DataWhale/WB/MEASURE UHC DATA"
 
 * Define path for data sources
 global SOURCE "${root}/RAW DATA/Recode V"
 
 * Define path for output data
-global OUT "${root}/STATA/DATA/SC/FINAL_V"
+global OUT "${root}/STATA/DATA/SC/FINAL"
 
 * Define path for INTERMEDIATE
-global INTER "${root}/STATA/DATA/SC/INTER_V"
+global INTER "${root}/STATA/DATA/SC/INTER"
 
 * Define path for do-files
 //global DO "C:\Users\wb500886\OneDrive - WBG\10_Health\UHC\GitHub\DHS-Recode-V"
-global DO "${root}/STATA/DO/SC/DHS/Recode V/Git-DHS-Recode-V"
+global DO "${root}/STATA/DO/SC/Recode_V_training"
 
 
 * Define the country names (in globals) in by Recode
 do "${DO}/0_GLOBAL.do"
 //$DHScountries_Recode_V
 
-foreach name in $DHScountries_Recode_V {	
+foreach Niger2006 in $DHScountries_Recode_V {	
 
 tempfile birth ind men hm hiv hh zsc iso 
 
