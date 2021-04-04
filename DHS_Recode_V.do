@@ -46,7 +46,7 @@ do "${DO}/0_GLOBAL.do"
 
 *foreach name in $DHScountries_Recode_V {	
 	
-foreach name in "Lesotho2009" {	
+foreach name in "Pakistan2006" {	
 
 
 tempfile birth ind men hm hiv hh zsc iso 
