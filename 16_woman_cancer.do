@@ -46,7 +46,11 @@ if inlist(name,"Jordan2007") {
 	replace w_mammogram=. if v012 < 20
 }
 
-
+if inlist(name,"Lesotho2009") {
+	replace w_papsmear=(s1012m==1)
+	replace w_papsmear=. if s1012m==.
+	replace w_papsmear=. if v012 < 20
+}
 
 capture confirm variable s714dd s714ee 
 if _rc==0 {
@@ -55,6 +59,7 @@ if _rc==0 {
 	replace w_papsmear=. if s714dd==9 | s714ee==9
 }
 
+/*Lesotho2009 RW Comment: s1012b/c are for Diabetes. The section below is problematic*/
 capture confirm variable s1011a s1011 s1012c s1012b
 if _rc == 0 {
     ren v012 wage	
@@ -83,7 +88,11 @@ if _rc==0 {
 }
 // They may be country specific in surveys.
 
-
+/*Lesotho2009 RW Comment: 
+pap smear recall indicator specifies 
+less than 12 months, 1-3 years, 4+years
+How to code?
+*/
 *Add reference period.
 //if not in adeptfile, please generate value, otherwise keep it missing. 
 //if the preferred recall is not available (3 years for pap, 2 years for mam) use shortest other available recall 
