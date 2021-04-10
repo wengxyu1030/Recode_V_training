@@ -38,7 +38,7 @@ global DO "${root}/STATA/DO/SC/Recode_V_training"
 do "${DO}/0_GLOBAL.do"
 //$DHScountries_Recode_V
 
-foreach Niger2006 in $DHScountries_Recode_V {	
+foreach name in $DHScountries_Recode_V "Niger2006" {	
 
 tempfile birth ind men hm hiv hh zsc iso 
 
