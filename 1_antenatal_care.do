@@ -90,7 +90,8 @@ order *,sequential
 	*c_anc_tet: pregnant women vaccinated against tetanus for last birth in last 2 years
 	    
 	    gen tet2lastp = 0                                                                                   //follow the definition by report. might be country specific. 
-        replace tet2lastp = 1 if m1 >1 & m1<8
+        replace tet2lastp = 1 if m1 >1 & m1<8 
+		// RW : why not m1>=1 & m1<8? We are documenting number of injections, this is disregarding how the report measures injection prevalence ("share of women receiving two shots..."). Resolution Pending Github Discussion.
 	
 	    * temporary vars needed to compute the indicator
 	    gen totet = 0 
@@ -108,7 +109,7 @@ order *,sequential
 	    replace ttprotect = 1 if totet>=2 &  lastinj<=2                                                     //at least 2 shots in last 3 years
 	    replace ttprotect = 1 if totet>=3 &  lastinj<=4                                                     //at least 3 shots in last 5 years
 	    replace ttprotect = 1 if totet>=4 &  lastinj<=9                                                     //at least 4 shots in last 10 years
-	    replace ttprotect = 1 if totet>=5                                                                   //at least 2 shots in lifetime
+	    replace ttprotect = 1 if totet>=5                                                                   //at least 5 shots in lifetime
 	    lab var ttprotect "Full neonatal tetanus Protection"
 				   
 	    gen rh_anc_neotet = ttprotect

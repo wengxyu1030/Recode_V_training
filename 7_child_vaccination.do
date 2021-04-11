@@ -15,8 +15,10 @@
 			replace c_measles = 0 if h9 == 0 & sh9 == 0 & sv9 == 0   
 		}
 		if inlist(name,"Azerbaijan2006") {
-			replace c_measles = 1 if inrange(h9,1,3) | inrange(s506mr,1,3)
-			replace c_measles = 0 if h9 == 0 & s506mr == 0  
+			*replace c_measles = 1 if inrange(h9,1,3) | inrange(s506mr,1,3)
+			*replace c_measles = 0 if h9 == 0 & s506mr == 0  
+			replace c_measles = 1 if inrange(h9,1,3) | inrange(s506mr,1,3) | sr509g == 1
+			replace c_measles = 0 if h9 == 0 & s506mr == 0 & sr509g == 0
 		}
 		if inlist(name,"Guyana2009") {
 			replace c_measles = 1 if inrange(h9,1,3) | inrange(smr1,1,3)
