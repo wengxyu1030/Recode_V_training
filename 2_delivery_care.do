@@ -41,8 +41,10 @@ order *,sequential  //make sure variables are in order.
     // please check this indicator in case it's country specific	
 	
 	*c_facdel: child born in formal health facility of births in last 2 years
+	// RW updated hosp key word in Lesotho exercise.
+	// Additionally, how do we deal with "health posts"?
 	gen c_facdel = 0 if !mi(m15)
-	replace c_facdel = 1 if regexm(m15_lab,"hospital|maternity|health center|dispensary") | ///
+	replace c_facdel = 1 if regexm(m15_lab,"hospital|maternity|health center|dispensary|hosp|health post") | ///
 	!regexm(m15_lab,"home|other private|other$|pharmacy|non medical|private nurse|religious|abroad|other public|tba")
 	replace c_facdel = . if mi(m15) | inlist(m15,98,99) | mi(m15_lab)
 
