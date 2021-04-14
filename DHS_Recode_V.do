@@ -18,30 +18,30 @@ macro drop _all
 
 //NOTE FOR WINDOWS USERS : use "/" instead of "\" in your paths
 
-//global root "C:/Users/wb500886/WBG/Sven Neelsen - World Bank/MEASURE UHC DATA"
-global root "C:\Users\Guan\OneDrive\DHS\MEASURE UHC DATA"
+//NOTE FOR WINDOWS USERS : use "/" instead of "\" in your paths
+
+global root "/Users/sunyining/OneDrive/MEASURE UHC DATA"
 
 * Define path for data sources
 global SOURCE "${root}/RAW DATA/Recode V"
 
 * Define path for output data
-global OUT "${root}/STATA/DATA/SC/FINAL_V"
+global OUT "${root}/STATA/DATA/SC/FINAL"
 
 * Define path for INTERMEDIATE
-global INTER "${root}/STATA/DATA/SC/INTER_V"
+global INTER "${root}/STATA/DATA/SC/INTER"
 
 * Define path for do-files
-//global DO "C:\Users\wb500886\OneDrive - WBG\10_Health\UHC\GitHub\DHS-Recode-V"
-global DO "${root}/STATA/DO/SC/DHS/Recode V/Git-DHS-Recode-V"
-
+global DO "/Users/sunyining/Dropbox/2021 PT-Data Whale UHC Project/Recode_V_training"
 
 * Define the country names (in globals) in by Recode
-do "${DO}/0_GLOBAL.do"
-//$DHScountries_Recode_V
+//do "${DO}/0_GLOBAL.do"
 
-foreach name in $DHScountries_Recode_V {	
+global DHScountries_Recode_V "Egypt2008"
 
-tempfile birth ind men hm hiv hh zsc iso 
+foreach name in $DHScountries_Recode_V{	
+
+tempfile birth ind men hm hiv hh iso 
 
 ************************************
 ***domains using zsc data***********
