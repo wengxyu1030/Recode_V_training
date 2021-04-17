@@ -37,7 +37,7 @@ global DO "/Users/sunyining/Dropbox/2021 PT-Data Whale UHC Project/Recode_V_trai
 * Define the country names (in globals) in by Recode
 //do "${DO}/0_GLOBAL.do"
 
-global DHScountries_Recode_V "Egypt2008"
+global DHScountries_Recode_V "Niger2006"
 
 foreach name in $DHScountries_Recode_V{	
 
