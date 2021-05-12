@@ -51,7 +51,7 @@ order *,sequential
 	
 	*c_anc_ski: antenatal care visit with skilled provider for pregnancy of births in last 2 years
 	gen c_anc_ski = .
-	replace c_anc_ski = 1 if anc_skill >= 1
+	replace c_anc_ski = 1 if anc_skill == 1 | anc_skill ==2
 	replace c_anc_ski = 0 if anc_skill == 0
 	
 	*c_anc_ski_q: antenatal care visit with skilled provider among ANC users for pregnancy of births in last 2 years
