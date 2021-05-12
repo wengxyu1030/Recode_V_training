@@ -44,9 +44,7 @@ order *,sequential
 	 }
 	/* do consider as skilled if contain words in 
 	   the first group but don't contain any words in the second group */
-    if inlist(name,"Ghana2008","Haiti2005") {	
-		replace m2f = .  // exclude traditional birth attendant/matrone
-	}
+   
 	egen anc_skill = rowtotal(m2a-m2m),mi	
 	
 	*c_anc_ski: antenatal care visit with skilled provider for pregnancy of births in last 2 years
