@@ -4,9 +4,9 @@
 
 version 15.1
 clear all
-set matsize 3956, permanent
+set matsize 3956, permanent // matsize must be between 10 and 800
 set more off, permanent
-set maxvar 32767, permanent
+set maxvar 32767, permanent 
 capture log close
 sca drop _all
 matrix drop _all
@@ -19,24 +19,24 @@ macro drop _all
 //NOTE FOR WINDOWS USERS : use "/" instead of "\" in your paths
 
 //global root "C:/Users/wb500886/WBG/Sven Neelsen - World Bank/MEASURE UHC DATA"
-global root "C:\Users\Guan\OneDrive\DHS\MEASURE UHC DATA"
+global root "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA"
 
 * Define path for data sources
-global SOURCE "${root}/RAW DATA/Recode V"
+global SOURCE "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/RAW DATA/Recode V"
 
 * Define path for output data
-global OUT "${root}/STATA/DATA/SC/FINAL_V"
+global OUT "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/STATA/DATA/SC/FINAL"
 
 * Define path for INTERMEDIATE
-global INTER "${root}/STATA/DATA/SC/INTER_V"
+global INTER "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/STATA/DATA/SC/INTER"
 
 * Define path for do-files
 //global DO "C:\Users\wb500886\OneDrive - WBG\10_Health\UHC\GitHub\DHS-Recode-V"
-global DO "${root}/STATA/DO/SC/DHS/Recode V/Git-DHS-Recode-V"
+global DO "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/STATA/DO/SC/Recode_V_training/Git-DHS-Recode-V-master/Recode_V_training"
 
 
 * Define the country names (in globals) in by Recode
-do "${DO}/0_GLOBAL.do"
+do "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/STATA/DO/SC/Recode_V_training/Git-DHS-Recode-V-master/Recode_V_training/0_GLOBAL.do"
 //$DHScountries_Recode_V
 
 foreach name in $DHScountries_Recode_V {	
@@ -46,13 +46,13 @@ tempfile birth ind men hm hiv hh zsc iso
 ************************************
 ***domains using zsc data***********
 ************************************
-capture confirm file "${SOURCE}/DHS-`name'/DHS-`name'zsc.dta"	
+capture confirm file "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/RAW DATA/Recode V/DHS-Egypt2008/DHS-Egypt2008zsc.dta"	
 if _rc == 0 {
-    use "${SOURCE}/DHS-`name'/DHS-`name'zsc.dta", clear
+    use "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/RAW DATA/Recode V/DHS-Egypt2008/DHS-Egypt2008zsc.dta", clear
     if hwlevel == 2 {
 		gen caseid = hwcaseid
 		gen bidx = hwline   	  
-		merge 1:1 caseid bidx using "${SOURCE}/DHS-`name'/DHS-`name'birth.dta"
+		merge 1:1 caseid bidx using "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/RAW DATA/Recode V/DHS-Egypt2008/DHS-Egypt2008birth.dta"
     	gen ant_sampleweight = v005/10e6  
     	drop if _!=3
 		
@@ -69,13 +69,13 @@ if _rc == 0 {
 		
 		rename ant_sampleweight c_ant_sampleweight
 		keep c_* caseid bidx hwlevel hc70 hc71
-		save "${INTER}/zsc_birth.dta",replace
+		save "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/STATA/DATA/SC/INTER/zsc_birth.dta",replace
     }
 
  	if hwlevel == 1 {
  		gen hhid = hwhhid
  		gen hvidx = hwline
- 		merge 1:1 hhid hvidx using "${SOURCE}/DHS-`name'/DHS-`name'hm.dta", keepusing(hv103 hv001 hv002 hv005)
+ 		merge 1:1 hhid hvidx using "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/RAW DATA/Recode V/DHS-Egypt2008/DHS-Egypt2008hm.dta", keepusing(hv103 hv001 hv002 hv005)
  		drop if hv103==0
  		gen ant_sampleweight = hv005/10e6
  		drop if _!=3
@@ -94,7 +94,7 @@ if _rc == 0 {
 	    
 		rename ant_sampleweight c_ant_sampleweight
 		keep c_* hhid hvidx hc70 hc71
-		save "${INTER}/zsc_hm.dta",replace
+		save "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/STATA/DATA/SC/INTER/zsc_hm.dta",replace
     }
 
  }
@@ -102,22 +102,22 @@ if _rc == 0 {
 ******************************
 *****domains using birth data*
 ******************************
-use "${SOURCE}/DHS-`name'/DHS-`name'birth.dta", clear	
+use "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/RAW DATA/Recode V/DHS-Egypt2008/DHS-Egypt2008birth.dta", clear	
 
     gen hm_age_mon = (v008 - b3)           //hm_age_mon Age in months (children only)
-    gen name = "`name'"
+    gen name = "Egypt2008"
 	
-    do "${DO}/1_antenatal_care"
-    do "${DO}/2_delivery_care"
-    do "${DO}/3_postnatal_care"
-    do "${DO}/7_child_vaccination"
-    do "${DO}/8_child_illness"
-    do "${DO}/10_child_mortality"
-    do "${DO}/11_child_other"
+    do "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/STATA/DO/SC/Recode_V_training/Git-DHS-Recode-V-master/Recode_V_training/1_antenatal_care"
+    do "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/STATA/DO/SC/Recode_V_training/Git-DHS-Recode-V-master/Recode_V_training/2_delivery_care"
+    do "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/STATA/DO/SC/Recode_V_training/Git-DHS-Recode-V-master/Recode_V_training/3_postnatal_care"
+    do "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/STATA/DO/SC/Recode_V_training/Git-DHS-Recode-V-master/Recode_V_training/7_child_vaccination"
+    do "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/STATA/DO/SC/Recode_V_training/Git-DHS-Recode-V-master/Recode_V_training/8_child_illness"
+    do "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/STATA/DO/SC/Recode_V_training/Git-DHS-Recode-V-master/Recode_V_training/10_child_mortality"
+    do "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/STATA/DO/SC/Recode_V_training/Git-DHS-Recode-V-master/Recode_V_training/11_child_other"
 	
-	capture confirm file "${INTER}/zsc_birth.dta"
+	capture confirm file "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/STATA/DATA/SC/INTER/zsc_birth.dta"
 	if _rc == 0 {
-	merge 1:1 caseid bidx using "${INTER}/zsc_birth.dta",nogen
+	merge 1:1 caseid bidx using "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/STATA/DATA/SC/INTER/zsc_birth.dta",nogen
 	rename (hc70 hc71) (c_hc70 c_hc71)
     }
 	
@@ -150,12 +150,12 @@ save `birth'
 ******************************
 *****domains using ind data***
 ******************************
-use "${SOURCE}/DHS-`name'/DHS-`name'ind.dta", clear	
-gen name = "`name'"
+use "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/RAW DATA/Recode V/DHS-Egypt2008/DHS-Egypt2008ind.dta", clear	
+gen name = "Egypt2008"
 gen hm_age_yrs = v012
-    do "${DO}/4_sexual_health"
-    do "${DO}/5_woman_anthropometrics"
-    do "${DO}/16_woman_cancer"
+    do "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/STATA/DO/SC/Recode_V_training/Git-DHS-Recode-V-master/Recode_V_training/4_sexual_health"
+    do "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/STATA/DO/SC/Recode_V_training/Git-DHS-Recode-V-master/Recode_V_training/5_woman_anthropometrics"
+    do "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/STATA/DO/SC/Recode_V_training/Git-DHS-Recode-V-master/Recode_V_training/16_woman_cancer"
 *housekeeping for ind data
 
     *hm_dob	date of birth (cmc)
@@ -170,20 +170,20 @@ save `ind'
 ************************************
 *****domains using hm level data****
 ************************************
-use "${SOURCE}/DHS-`name'/DHS-`name'hm.dta", clear
-gen name = "`name'"
-    do "${DO}/13_adult"
-    do "${DO}/14_demographics"
+use "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/RAW DATA/Recode V/DHS-Egypt2008/DHS-Egypt2008hm.dta", clear
+gen name = "Egypt2008"
+    do "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/STATA/DO/SC/Recode_V_training/Git-DHS-Recode-V-master/Recode_V_training/13_adult"
+    do "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/STATA/DO/SC/Recode_V_training/Git-DHS-Recode-V-master/Recode_V_training/14_demographics"
 
-capture confirm file "${INTER}/zsc_hm.dta"
+capture confirm file "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/STATA/DATA/SC/INTER/zsc_hm.dta"
 	if _rc == 0 {
-	merge 1:1 hhid hvidx using "${INTER}/zsc_hm.dta",nogen
+	merge 1:1 hhid hvidx using "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/STATA/DATA/SC/INTER/zsc_hm.dta",nogen
 	rename (hc70 hc71) (hm_hc70 hm_hc71)
 	}
 	if _rc != 0 {
-	  capture confirm file "${INTER}/zsc_birth.dta"
+	  capture confirm file "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/STATA/DATA/SC/INTER/zsc_birth.dta"
 	    if _rc != 0 {
-          do "${DO}/9_child_anthropometrics"  //if there's no zsc related file, then run 9_child_anthropometrics
+          do "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/STATA/DO/SC/Recode_V_training/Git-DHS-Recode-V-master/Recode_V_training/9_child_anthropometrics"  //if there's no zsc related file, then run 9_child_anthropometrics
 	      rename ant_sampleweight c_ant_sampleweight
 		}
     }	
@@ -193,10 +193,10 @@ keep hv001 hv002 hvidx ///
 c_* a_* hm_* ln *hc70 *hc71  // *hc70 *hc71 are correct for now, may need to be changed in some cases
 save `hm'
 
-capture confirm file "${SOURCE}/DHS-`name'/DHS-`name'hiv.dta"
+capture confirm file "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/RAW DATA/Recode V/DHS-Egypt2008/DHS-Egypt2008hiv.dta"
  	if _rc==0 {
-    use "${SOURCE}/DHS-`name'/DHS-`name'hiv.dta", clear
-    do "${DO}/12_hiv"
+    use "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/RAW DATA/Recode V/DHS-Egypt2008/DHS-Egypt2008hiv.dta", clear
+    do "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/STATA/DO/SC/Recode_V_training/Git-DHS-Recode-V-master/Recode_V_training/12_hiv"
  	}
  	if _rc!= 0 {
     gen a_hiv = . 
@@ -213,14 +213,14 @@ save `hm',replace
 ************************************
 *****domains using hh level data****
 ************************************
-use "${SOURCE}/DHS-`name'/DHS-`name'hm.dta", clear
+use "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/RAW DATA/Recode V/DHS-Egypt2008/DHS-Egypt2008hm.dta", clear
     rename (hv001 hv002 hvidx) (v001 v002 v003)
 
-    merge 1:m v001 v002 v003 using "${SOURCE}/DHS-`name'/DHS-`name'birth.dta"
+    merge 1:m v001 v002 v003 using "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/RAW DATA/Recode V/DHS-Egypt2008/DHS-Egypt2008birth.dta"
     rename (v001 v002 v003) (hv001 hv002 hvidx) 
     drop _merge
 
-    do "${DO}/15_household"
+    do "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/STATA/DO/SC/Recode_V_training/Git-DHS-Recode-V-master/Recode_V_training/15_household"
 
 keep hv001 hv002 hv003 hh_* 
 save `hh' 
@@ -231,7 +231,7 @@ save `hh'
 ************************************
 
 ***match with external iso data
-use "${SOURCE}/external/iso", clear 
+use "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/RAW DATA/Recode V/external/iso", clear 
 keep country iso2c iso3c
 replace country = "Congodr"  if country == "Congo, the Democratic Republic of the"
 replace country = "DominicanRepublic"  if country == "Dominican Republic"
@@ -270,10 +270,10 @@ drop c_placeholder
 
 
 ***survey level data
-    gen survey = "DHS-`name'"
-	gen year = real(substr("`name'",-4,.))
+    gen survey = "DHS-Egypt2008"
+	gen year = real(substr("Egypt2008",-4,.))
 	tostring(year),replace
-    gen country = regexs(0) if regexm("`name'","([a-zA-Z]+)")
+    gen country = regexs(0) if regexm("Egypt2008","([a-zA-Z]+)")
 	
     merge m:1 country using `iso',force
     drop if _merge == 2
@@ -281,17 +281,17 @@ drop c_placeholder
 
 *** Quality Control: Validate with DHS official data
 gen surveyid = iso2c+year+"DHS"
-gen name = "`name'"
+gen name = "Egypt2008"
 	if inlist(name,"Eswatini2006") {
 		replace surveyid = "SZ2006DHS"
 	}
 
 preserve
-	do "${DO}/Quality_control"
-	save "${INTER}/quality_control-`name'",replace
-	cd "${INTER}"
-	do "${DO}/Quality_control_result"
-	save "${OUT}/quality_control",replace 
+	do "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/STATA/DO/SC/Recode_V_training/Git-DHS-Recode-V-master/Recode_V_training/Quality_control"
+	save "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/STATA/DATA/SC/INTER/quality_control-Egypt2008",replace
+	cd "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/STATA/DATA/SC/INTER"
+	do "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/STATA/DO/SC/Recode_V_training/Git-DHS-Recode-V-master/Recode_V_training/Quality_control_result"
+	save "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/STATA/DATA/SC/FINAL/quality_control",replace 
     restore 
 
 
@@ -338,21 +338,21 @@ preserve
 	
 *** Label variables
     drop bidx surveyid
-    do "${DO}/Label_var" 
+    do "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/STATA/DO/SC/Recode_V_training/Git-DHS-Recode-V-master/Recode_V_training/Label_var" 
 	
 *** Clean the intermediate data
-    capture confirm file "${INTER}/zsc_birth.dta"
+    capture confirm file "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/STATA/DATA/SC/INTER/zsc_birth.dta"
     if _rc == 0 {
-    erase "${INTER}/zsc_birth.dta"
+    erase "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/STATA/DATA/SC/INTER/zsc_birth.dta"
     }	
     
-	capture confirm file"${INTER}/zsc_hm.dta"
+	capture confirm file"/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/STATA/DATA/SC/INTER/zsc_hm.dta"
     if _rc == 0 {
-    erase "${INTER}/zsc_hm.dta"
+    erase "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/STATA/DATA/SC/INTER/zsc_hm.dta"
     }	
 
 	
-save "${OUT}/DHS-`name'.dta", replace  
+save "/Users/flora.jiang/Onedrive/WB/OneDrive/MEASURE UHC DATA/STATA/DATA/SC/FINAL/DHS-Egypt2008.dta", replace  
 }
 
 
