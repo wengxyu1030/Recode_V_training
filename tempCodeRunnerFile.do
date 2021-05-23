@@ -1,11 +1,22 @@
-gen c_pnc_any = .
-		replace c_pnc_any = 0 if m62 != . | m66 != . | m70 != . 
-		replace c_pnc_any = 1 if (m63 <= 306 & m64_skill == 1) | (m67 <= 306 & m68_skill == 1) | (m71 <= 306 & m72_skill == 1) 
-		replace c_pnc_any = . if inlist(m63,199,299,399,998) | inlist(m67,199,299,399,998) | inlist(m71,199,299,399,998) | m62 == 8 | m66 == 8 | m70 == 8 
+*mor_dob				Child date of birth (cmc)
+    clonevar mor_dob = b3
 	
+*mor_wln				Woman line number in HH to match child with mother (original)
+    clonevar mor_wln = v003
 	
-	gen c_pnc_eff = .
-		
-		replace c_pnc_eff = 0 if m62 != . | m66 != . | m70 != .
-		replace c_pnc_eff = 1 if (((inrange(m63,100,124) | m63 == 201 ) & m64_skill == 1) | ((inrange(m67,100,124) | m67 == 201) & m68_skill == 1)) & ((inrange(m71,100,124) | m71 == 201) & m72_skill == 1) 
-		replace c_pnc_eff = . if inlist(m63,199,299,399,998) | inlist(m67,199,299,399,998) | inlist(m71,199,299,399,998) | m62 == 8 | m66 == 8 | m70 == 8 
+*mor_ali				Child still alive (1/0)
+   	ge mnths_born_bef_int = v008 - b3 /* months born before interview  */ 
+	clonevar mor_ali =  b5
+
+*mor_ade				Child age at death in months
+    clonevar mor_ade = b7
+	replace mor_ade = . if b13~=0
+	
+	ge age_alive_mnths = mnths_born_bef_int 
+	
+	ge time = mor_ade
+	replace time = age_alive_mnths if mor_ali==0
+	replace time = 0 if time<0
+	
+*mor_afl				Child age at death imputation flag
+    clonevar mor_afl = b13
