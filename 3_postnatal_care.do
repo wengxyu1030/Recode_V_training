@@ -8,8 +8,8 @@
 	*c_pnc_any : mother OR child receive PNC in first six weeks by skilled health worker	
 	*c_pnc_eff: mother AND child in first 24h by skilled health worker
 
-	if inlist(name,"Cambodia2010","Egypt2008","Ghana2008") {
-	foreach var of varlist m64 m68 m72 {
+	if inlist(name,"Cambodia2010","Egypt2008","Ghana2008","Pakistan2006") {
+		foreach var of varlist m64 m68 m72 {
 		local s=substr("`var'",-2,.)
 		local t=`s'-2
 		gen `var'_skill =0 if !inlist(m`t',0,1)
@@ -17,7 +17,7 @@
 		decode `var', gen(`var'_lab)
 		replace `var'_lab = lower(`var'_lab )
 		replace  `var'_skill= 1 if ///
-		(regexm(`var'_lab,"doctor|nurse|midwife|mifwife|aide soignante|assistante accoucheuse|clinical officer|mch aide|trained|auxiliary birth attendant|physician assistant|professional|ferdsher|feldshare|skilled|community health care provider|birth attendant|hospital/health center worker|hew|auxiliary|icds|feldsher|mch|vhw|village health team|health personnel|gynecolog(ist|y)|obstetrician|internist|pediatrician|family welfare visitor|medical assistant|health assistant|matron|general practitioner|health officer|extension|ob-gy") ///
+		(regexm(`var'_lab,"doctor|nurse|midwife|lady health worker|mifwife|aide soignante|assistante accoucheuse|clinical officer|mch aide|trained|auxiliary birth attendant|physician assistant|professional|ferdsher|feldshare|skilled|community health care provider|birth attendant|hospital/health center worker|hew|auxiliary|icds|feldsher|mch|vhw|village health team|health personnel|gynecolog(ist|y)|obstetrician|internist|pediatrician|family welfare visitor|medical assistant|health assistant|matron|general practitioner|health officer|extension|ob-gy") ///
 		& (regexm(`var'_lab,"trained") | !regexm(`var'_lab,"na^|-na|traditional birth attendant|untrained|unquallified|empirical midwife|box|other|community"))) 
 
 		replace `var'_skill = . if mi(`var') | `var' == 99
@@ -29,16 +29,17 @@
 		replace c_pnc_any = 0 if m62 != . | m66 != . | m70 != . 
 		replace c_pnc_any = 1 if (m63 <= 306 & m64_skill == 1) | (m67 <= 306 & m68_skill == 1) | (m71 <= 306 & m72_skill == 1) 
 		replace c_pnc_any = . if inlist(m63,199,299,399,998) | inlist(m67,199,299,399,998) | inlist(m71,199,299,399,998) | m62 == 8 | m66 == 8 | m70 == 8 
-	
-	
 	gen c_pnc_eff = .
-		
 		replace c_pnc_eff = 0 if m62 != . | m66 != . | m70 != .
 		replace c_pnc_eff = 1 if (((inrange(m63,100,124) | m63 == 201 ) & m64_skill == 1) | ((inrange(m67,100,124) | m67 == 201) & m68_skill == 1)) & ((inrange(m71,100,124) | m71 == 201) & m72_skill == 1) 
 		replace c_pnc_eff = . if inlist(m63,199,299,399,998) | inlist(m67,199,299,399,998) | inlist(m71,199,299,399,998) | m62 == 8 | m66 == 8 | m70 == 8 
+
 	}
+		
 	
-	if ~inlist(name,"Egypt2008","Ghana2008","Cambodia2010") {
+
+	
+	if ~inlist(name,"Egypt2008","Ghana2008","Cambodia2010","Pakistan2006") {
 		
 		gen c_pnc_any = .
 		gen c_pnc_eff = .
