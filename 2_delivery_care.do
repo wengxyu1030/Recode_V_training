@@ -77,7 +77,7 @@ order *,sequential  //make sure variables are in order.
 	*c_caesarean: Last birth in last 2 years delivered through caesarean                    
 	clonevar c_caesarean = m17
 	replace c_caesarean = . if c_caesarean == 9
-	replace c_caesaren = . if m15 == 11 | m15 == 12 | m15 == 96
+	replace c_caesarean = . if m15 == 11 | m15 == 12 | m15 == 96
 	
     *c_sba_eff1: Effective delivery care (baby delivered in facility, by skilled provider, mother and child stay in facility for min. 24h, breastfeeding initiated in first 1h after birth)
 	gen stay = 0 if m15 != .
