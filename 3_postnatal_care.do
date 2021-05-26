@@ -8,7 +8,7 @@
 	*c_pnc_any : mother OR child receive PNC in first six weeks by skilled health worker	
 	*c_pnc_eff: mother AND child in first 24h by skilled health worker
 
-	if inlist(name,"Cambodia2010","Egypt2008","Ghana2008") {
+	if inlist(name,"Cambodia2010","Egypt2008","Ghana2008","Pakistan2006") {
 	foreach var of varlist m64 m68 m72 {
 		local s=substr("`var'",-2,.)
 		local t=`s'-2
@@ -17,7 +17,7 @@
 		decode `var', gen(`var'_lab)
 		replace `var'_lab = lower(`var'_lab )
 		replace  `var'_skill= 1 if ///
-		(regexm(`var'_lab,"doctor|nurse|midwife|mifwife|aide soignante|assistante accoucheuse|clinical officer|mch aide|trained|auxiliary birth attendant|physician assistant|professional|ferdsher|feldshare|skilled|community health care provider|birth attendant|hospital/health center worker|hew|auxiliary|icds|feldsher|mch|vhw|village health team|health personnel|gynecolog(ist|y)|obstetrician|internist|pediatrician|family welfare visitor|medical assistant|health assistant|matron|general practitioner|health officer|extension|ob-gy") ///
+		(regexm(`var'_lab,"doctor|nurse|midwife|lady health worker|mifwife|aide soignante|assistante accoucheuse|clinical officer|mch aide|trained|auxiliary birth attendant|physician assistant|professional|ferdsher|feldshare|skilled|community health care provider|birth attendant|hospital/health center worker|hew|auxiliary|icds|feldsher|mch|vhw|village health team|health personnel|gynecolog(ist|y)|obstetrician|internist|pediatrician|family welfare visitor|medical assistant|health assistant|matron|general practitioner|health officer|extension|ob-gy") ///
 		& (regexm(`var'_lab,"trained") | !regexm(`var'_lab,"na^|-na|traditional birth attendant|untrained|unquallified|empirical midwife|box|other|community"))) 
 
 		replace `var'_skill = . if mi(`var') | `var' == 99
